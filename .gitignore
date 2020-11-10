@@ -3,3 +3,4 @@
 *.pyc
 *.pyi
 .~lock.aes_data.xlsx#
+.vscode/
