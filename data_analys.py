@@ -19,16 +19,3 @@ print(water1.rho, water1.phase)
 print(water2.rho, water2.phase)
 
 
-df["10LAB13CP002_XQ01"] = df.loc[df["10LAB13CP002_XQ01"]>8, "10LAB13CP002_XQ01"].apply(lambda x: x-x//1)
-
-
-
-
-for col in df.columns.values[1:]:
-    df[col] = df[col].apply(lambda x: 0 if x<0 else x)
-
-
-pump_columns = ["10LAB11CF001_XQ01","10LAB12CF001_XQ01","10LAB13CF001_XQ01","10LAB14CF001_XQ01","10LAB15CF001_XQ01"]
-
-for col in pump_columns:
-    df[col] = df[col].apply(lambda x: x if x<510 else 0)    
