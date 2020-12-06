@@ -1,3 +1,9 @@
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+import random
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, r2_score
 import pandas as pd
 
 file = "aes_data.xlsx"
@@ -18,38 +24,45 @@ file = "aes_data.xlsx"
 # print(water1.rho, water1.phase)
 # print(water2.rho, water2.phase)
 
-from sklearn.linear_model import LinearRegression  
-from sklearn.preprocessing import PolynomialFeatures 
-from sklearn.metrics import mean_squared_error, r2_score
-
-import matplotlib.pyplot as plt
-import numpy as np
-import random
 
 #----------------------------------------------------------------------------------------#
 # Step 1: training data
 
-X = [i for i in range(10)]
-Y = [random.gauss(x,0.75) for x in X]
+# X = [i for i in range(10)]
+# Y = [random.gauss(x,0.75) for x in X]
+
+X = [0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 2, 3]
+Y = [1, 2, 2, 0, 1, 4, 1, 1, 4, 7, 0, 5, 8, 0, 4, 2, 9]
+
+X = np.array(X)
+Y = np.array(Y)
+
+Y = Y[X.argsort()]
+X = X[X.argsort()]
+
+# X.sort()
+# X.sort()
+print(X)
+print(Y)
 
 X = np.asarray(X)
 Y = np.asarray(Y)
 
-X = X[:,np.newaxis]
-Y = Y[:,np.newaxis]
+X = X[:, np.newaxis]
+Y = Y[:, np.newaxis]
 
-plt.scatter(X,Y)
+plt.scatter(X, Y)
 
 nb_degree = 4
 
-poly_reg = PolynomialFeatures(degree = nb_degree)
+poly_reg = PolynomialFeatures(degree=nb_degree)
 
 X_TRANSF = poly_reg.fit_transform(X)
 
 poly_reg.fit(X_TRANSF, Y)
 
 lin_reg = LinearRegression()
-lin_reg.fit(X_TRANSF,Y)
-plt.plot(X,lin_reg.predict(X_TRANSF))
+lin_reg.fit(X_TRANSF, Y)
+plt.plot(X, lin_reg.predict(X_TRANSF))
 
 plt.show()
