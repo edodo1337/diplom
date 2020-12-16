@@ -66,3 +66,69 @@ lin_reg.fit(X_TRANSF, Y)
 plt.plot(X, lin_reg.predict(X_TRANSF))
 
 plt.show()
+
+
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+
+pump_1_filtred_df = pd.DataFrame({
+    'pump_in': filtred_data['pump_1_in'],
+    'pump_out': filtred_data['pump_1_out'],
+    'pump_mass': filtred_data['pump_1_mass'],
+    'pump_temp': filtred_data['pump_1_temp'],
+    'pump_revs': filtred_data['pump_1_revs'],
+    'pump_amper': filtred_data['pump_1_amper'],
+    'pump_eff': filtred_data['pump_1_eff'],
+    
+})
+
+train_dataset = pump_1_filtred_df.sample(frac=0.8,random_state=0)
+test_dataset = pump_1_filtred_df.drop(train_dataset.index)
+
+
+train_stats = train_dataset.describe()
+train_stats.pop("pump_eff")
+train_stats = train_stats.transpose()
+train_stats
+
+train_labels = train_dataset.pop('pump_eff')
+test_labels = test_dataset.pop('pump_eff')
+
+def norm(x):
+  return (x - train_stats['mean']) / train_stats['std']
+normed_train_data = norm(train_dataset)
+normed_test_data = norm(test_dataset)
+
+
+def build_model():
+  model = keras.Sequential([
+    layers.Dense(64, activation='relu', input_shape=[len(train_dataset.keys())]),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(1)
+  ])
+
+  optimizer = tf.keras.optimizers.RMSprop(0.001)
+
+  model.compile(loss='mse',
+                optimizer=optimizer,
+                metrics=['mae', 'mse'])
+  return model
+
+model = build_model()
+example_batch = normed_train_data[:10]
+example_result = model.predict(example_batch)
+example_result
+
+EPOCHS = 1000
+
+history = model.fit(
+  normed_train_data, train_labels,
+  epochs=EPOCHS, validation_split = 0.2, verbose=0)
+
+
+from tensorflow import keras
+
+keras.activations.
