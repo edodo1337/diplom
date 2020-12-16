@@ -96,3 +96,4 @@ zipp==3.4.0
 iapws==1.5.2
 scikit-learn==0.23.2
 seaborn==0.11.0
+cellbell==0.0.3
