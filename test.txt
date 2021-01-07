@@ -84,48 +84,6 @@ Progress SELU (#4): 500/2000 mae:0.0027371561154723167, mse:1.2165908628958277e-
 Testing set Tanh (#5) MAE: 0.0028780815, MSE: 0.0000150093
 WEIGHTS Tanh #5: first layer:[0.5376, 0.0251, 2.2437, 1.4103, 0.6235, 0.6043]
 
----------------------------------------------------------------------------
-RemoteTraceback                           Traceback (most recent call last)
-RemoteTraceback: 
-"""
-Traceback (most recent call last):
-  File "/usr/lib/python3.6/multiprocessing/pool.py", line 119, in worker
-    result = (True, func(*args, **kwds))
-  File "<ipython-input-20-58d5118c4ff6>", line 62, in build_and_train
-    weights = model.layers[0].get_weights()[0]
-IndexError: list index out of range
-"""
-
-The above exception was the direct cause of the following exception:
-
-IndexError                                Traceback (most recent call last)
-<ipython-input-22-f07b03541e94> in <module>
-     31             nn_trainer7, nn_trainer8, nn_trainer9]
-     32 
----> 33 pump_nn1, pump_nn2, pump_nn3, pump_nn4, pump_nn5, pump_nn6, pump_nn7, pump_nn8, pump_nn9 = calc_and_save(trainers)
-
-<ipython-input-21-462394dd7c49> in calc_and_save(trainers, processes)
-     63             futures.append(pool.apply_async(trainer.build_and_train, (i+1,)))
-     64 
----> 65     _results = [f.get() for f in futures]
-     66 
-     67 #         results = list(pool.map_async(trainer.build_and_train, [1,2,3,4,5]))
-
-<ipython-input-21-462394dd7c49> in <listcomp>(.0)
-     63             futures.append(pool.apply_async(trainer.build_and_train, (i+1,)))
-     64 
----> 65     _results = [f.get() for f in futures]
-     66 
-     67 #         results = list(pool.map_async(trainer.build_and_train, [1,2,3,4,5]))
-
-/usr/lib/python3.6/multiprocessing/pool.py in get(self, timeout)
-    642             return self._value
-    643         else:
---> 644             raise self._value
-    645 
-    646     def _set(self, i, obj):
-
-IndexError: list index out of range
 
 Progress SELU (#5): 400/2000 mae:0.002964683808386326, mse:1.4835057299933396e-05e-0537/37 - 0s - loss: 1.2171e-05 - mae: 0.0027 - mse: 1.2171e-05
 Testing set SELU (#1) MAE: 0.0027117941, MSE: 0.0000121714
